@@ -1,8 +1,8 @@
 import { ethers } from "ethers";
-import sdk from "./1-initialize-sdk";
+import sdk from "./1-initialize-sdk.js";
 import { readFileSync } from "fs";
 
-const app = sdk.getAppModule("qaDAO")(async () => {
+const app = sdk.getAppModule("0xA0Fb0BA31BF7ec5327a64C6B7c0403760Ad54507")(async () => {
   try {
     const bundleDropModule = await app.deployBundleDropModule({
       name: "qaDAO",
