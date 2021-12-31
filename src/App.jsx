@@ -12,9 +12,17 @@ const App = () => {
   const { connectWallet, address, error, provider } = useWeb3();
   console.log("👋 Address:", address);
 
-  
+  //allows signing blockchain tx
+  const signer = provider ? provider.getSigner() : undefined
 
   const [hasClaimedNFT, setHasClaimedNFT] = useState(false);
+
+  const [isClaiming, setIsClaiming] = useState(false)
+
+  // pass signer to sdk to enable contract interaction
+  useEffect(() => {
+    sdk.setProviderOrSigner(signer);
+  }, [signer]) 
 
   useEffect(() => {
     if (!address) {
@@ -48,12 +56,48 @@ const App = () => {
       </div>
     );
   }
+  if (hasClaimedNFT) {
+    return (
+      <div className="member-page">
+        <h1>DAO Member Page</h1>
+        <p>Congratulations on being a member</p>
+      </div>
+    );
+  };
+
+  const mintNft = () => {
+    setIsClaiming(true)
+    bundleDropModule
+    .claim("0", 1)
+    .then(() => {
+      setHasClaimedNFT(true)
+      console.log( `🌊 Successfully Minted! Check it out on OpenSea: https://testnets.opensea.io/assets/${bundleDropModule.address}/0`)
+    })
+    .catch((err) => {
+      console.error("failed to claim", err)
+    })
+    .finally(() => {
+      setIsClaiming(false)
+    })
+  }
 
   return (
-    <div className="landing">
-      <h1>👀 wallet connected</h1>
+    <div className="mint-nft">
+      <h1>Mint your free qaDAO Membership NFT</h1>
+      <button
+        disabled={isClaiming}
+        onClick={() => mintNft()}
+      >
+        {isClaiming ? "Minting..." : "Mint your nft (FREE)"}
+      </button>
     </div>
   );
+
+  // return (
+  //   <div className="landing">
+  //     <h1>👀 wallet connected</h1>
+  //   </div>
+  // );
 };
 
 export default App;
