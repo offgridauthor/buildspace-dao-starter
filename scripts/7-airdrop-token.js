@@ -23,7 +23,9 @@ const tokenModule = sdk.getTokenModule(
     }
     
     const airdropTargets = walletAddresses.map((address) => {
-      const randomAmount = Math.floor(Math.random() * (10000 - 1000 + 1) + 1000);
+      const randomAmount = Math.floor(Math.random() * (1000 - 100 + 1) + 100);
+      // make some sort of call to return current date minus date of token transfer to wallet as daysTokenOwned
+      // const seniorityBasedIncentiveAmount = (0.27 * daysTokenOwned)
       console.log("✅ Going to airdrop", randomAmount, "tokens to", address);
       
       const airdropTarget = {
