@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ThirdwebSDK } from "@3rdweb/sdk";
 import { useWeb3 } from "@3rdweb/hooks";
 import { ethers } from "ethers";
+import { UnsupportedChainIdError } from "@web3-react/core";
 
 const sdk = new ThirdwebSDK("rinkeby");
 const bundleDropModule = sdk.getBundleDropModule(
@@ -165,6 +166,7 @@ const App = () => {
     return (
       <div className="member-page">
         <h1>qaDAO Member Page</h1>
+        <img src="https://lh3.googleusercontent.com/HhtPkto1nm3y-iV1ZqrT8SnGOQNivTXyGAT31dqMllFMB4hiFsXjzdRGt6EJQKrbSv8Dw5wqlDZzRMVd2M6scQ9FrdqilRrmBnL_3A=w600" alt="toga of socrates"></img>
         <p>Congratulations on being a member</p>
         <div>
           <div>
@@ -316,6 +318,18 @@ const App = () => {
       </div>
     );
   };
+
+  if (error instanceof UnsupportedChainIdError ) {
+    return (
+      <div className="unsupported-network">
+        <h2>Please connect to Rinkeby</h2>
+        <p>
+          This dapp only works on the Rinkeby network. Please switch networks
+          in your connected wallet.
+        </p>
+      </div>
+    );
+  }
 
   const mintNft = () => {
     setIsClaiming(true);
